@@ -50,5 +50,171 @@
 
     </LinearLayout>
 
+    <!-- Tarefa 2 - Shared Preferences -->
+    <LinearLayout style="@style/contentor_geral">
+
+        <View style="@style/linha_separacao"/>
+
+        <TextView
+            style="@style/titulo_seccao"
+            android:text="@string/shared_preferencesMultiFich"/>
+
+        <LinearLayout style="@style/contentor_horizontal">
+        <EditText
+            android:id="@+id/editText2a"
+            style="@style/editText"
+            android:text=""
+            android:hint="@string/sharedPreferencesNome"/>
+
+        <EditText
+            android:id="@+id/editText2b"
+            style="@style/editText"
+            android:text=""
+            android:hint="@string/sharedPreferencesIdade"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/contentor_horizontal">
+
+            <Button
+                style="@style/buttonWrite"
+                android:id="@+id/bttWrite2"
+                android:text="@string/btWrite"/>
+
+            <Button
+                style="@style/buttonRead"
+                android:id="@+id/bttRead2"
+                android:text="@string/btRead"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Tarefa 3 - Cache -->
+    <LinearLayout style="@style/contentor_geral">
+
+        <View style="@style/linha_separacao"/>
+
+        <TextView
+            style="@style/titulo_seccao"
+            android:text="@string/Cache"/>
+
+        <LinearLayout style="@style/contentor_horizontal">
+
+            <EditText
+                android:id="@+id/editText3a"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesNome"/>
+
+            <EditText
+                android:id="@+id/editText3b"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesIdade"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/contentor_horizontal">
+
+            <Button
+                style="@style/buttonWrite"
+                android:id="@+id/bttWrite3"
+                android:text="@string/btWrite"/>
+
+            <Button
+                style="@style/buttonRead"
+                android:id="@+id/bttRead3"
+                android:text="@string/btRead"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Tarefa 4 - Internal Storage -->
+    <LinearLayout style="@style/contentor_geral">
+
+        <View style="@style/linha_separacao"/>
+
+        <TextView
+            style="@style/titulo_seccao"
+            android:text="@string/internal_storage"/>
+
+        <LinearLayout style="@style/contentor_horizontal">
+
+            <EditText
+                android:id="@+id/editText4a"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesNome"/>
+
+            <EditText
+                android:id="@+id/editText4b"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesIdade"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/contentor_horizontal">
+
+            <Button
+                style="@style/buttonWrite"
+                android:id="@+id/bttWrite4"
+                android:text="@string/btWrite"/>
+
+            <Button
+                style="@style/buttonRead"
+                android:id="@+id/bttRead4"
+                android:text="@string/btRead"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Tarefa 5 - External Storage -->
+    <LinearLayout style="@style/contentor_geral">
+
+        <View style="@style/linha_separacao"/>
+
+        <TextView
+            style="@style/titulo_seccao"
+            android:text="@string/external_storage"/>
+
+        <LinearLayout style="@style/contentor_horizontal">
+
+            <EditText
+                android:id="@+id/editText5a"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesNome"/>
+
+            <EditText
+                android:id="@+id/editText5b"
+                style="@style/editText"
+                android:text=""
+                android:hint="@string/sharedPreferencesIdade"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/contentor_horizontal">
+
+            <Button
+                style="@style/buttonWrite"
+                android:id="@+id/bttWrite5"
+                android:text="@string/btWrite"/>
+
+            <Button
+                style="@style/buttonRead"
+                android:id="@+id/bttRead5"
+                android:text="@string/btRead"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

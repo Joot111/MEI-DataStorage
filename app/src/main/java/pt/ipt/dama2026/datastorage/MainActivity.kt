@@ -2,6 +2,7 @@ package pt.ipt.dama2026.datastorage
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -11,6 +12,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dama2026.datastorage.databinding.ActivityMainBinding
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.PrintStream
+import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +45,263 @@ class MainActivity : AppCompatActivity() {
         viewBinding.bttRead1.setOnClickListener {
             lerSharedPreferences(it)
         }
+
+        // Tarefa 2: SharedPreferences com múltiplos ficheiros
+         viewBinding.bttWrite2.setOnClickListener {
+             escreveSharedPreferencesMulti(it)
+             escondeTeclado(it)
+         }
+
+         viewBinding.bttRead2.setOnClickListener {
+             lerSharedPreferencesMulti(it)
+         }
+
+        //Tarefa 3: Cache
+        viewBinding.bttWrite3.setOnClickListener {
+                escreveCache()
+                escondeTeclado(it)
+        }
+
+        viewBinding.bttRead3.setOnClickListener {
+                lerCache()
+        }
+
+        //Tarefa 4: Internal Storage
+        viewBinding.bttWrite4.setOnClickListener {
+            escreveInternalStorage()
+            escondeTeclado(it)
+        }
+
+        viewBinding.bttRead4.setOnClickListener {
+            lerInternalStorage()
+        }
+
+        //Tarefa 5: External Storage
+        viewBinding.bttWrite5.setOnClickListener {
+            // se a app estiver a correr em Androids mais Antigos
+            // há necessidade de pedir autorização de escrita na External Storage
+            escreveExternalStorage()
+            escondeTeclado(it)
+        }
+
+        viewBinding.bttRead5.setOnClickListener {
+            lerExternalStorage()
+        }
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++
+    // Tarefa 5: External Storage
+    //++++++++++++++++++++++++++++++++++++++++
+
+    fun escreveExternalStorage() {
+        // endereço da pasta onde será gerado o ficheiro
+        // associado à área de atuação da aplicação
+        val directory: File = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
+
+        // nome do ficheiro na External Storage
+        val file: File = File(directory, "dadosExternalStorage.txt")
+        try {
+            val fo: FileOutputStream = FileOutputStream(file)
+            val ps: PrintStream = PrintStream(fo)
+            ps.println(viewBinding.editText5a.text)
+            ps.println(viewBinding.editText5b.text)
+            ps.close()
+            fo.close()
+
+            // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+            Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(
+                this,
+                getString(R.string.escritaErradaExternalStorage),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun lerExternalStorage() {
+        val directory: File = Environment.getExternalStorageDirectory()
+        val file = File(directory, "dadosExternalStorage.txt")
+        try {
+            val fi = FileInputStream(file)
+            val sc = Scanner(fi)
+            val nome = sc.nextLine()
+            val idade = sc.nextLine()
+            sc.close()
+            fi.close()
+
+            // mostrar os dados
+            Snackbar.make(
+                viewBinding.root,
+                "Você chama-se ${
+                    nome.toString().uppercase()
+                } e tem $idade anos! - External Storage",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.external_storage_vazia), Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++
+    // Tarefa 4: Internal Storage
+    //++++++++++++++++++++++++++++++++++++++++
+
+    /**
+     * escreve os dados introduzidos pelo utilizador para a Internal Storage
+     */
+    fun escreveInternalStorage() {
+        // endereço da pasta onde será gerado o ficheiro
+        // associado à área de atuação da aplicação
+        val directory: File = filesDir
+        // nome do ficheiro na Internal Storage
+        val file: File = File(directory, "dadosInternalStorage.txt")
+        try {
+            val fo: FileOutputStream = FileOutputStream(file)
+            val ps: PrintStream = PrintStream(fo)
+            ps.println(viewBinding.editText4a.text)
+            ps.println(viewBinding.editText4b.text)
+            ps.close()
+            fo.close()
+
+            // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+            Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /**
+     * lê os dados guardados na Internal Storage e mostra-os ao utilizador
+     */
+    fun lerInternalStorage() {
+        val directory: File = filesDir
+        val file = File(directory, "dadosInternalStorage.txt")
+        try {
+            val fi = FileInputStream(file)
+            val sc = Scanner(fi)
+            val nome = sc.nextLine()
+            val idade = sc.nextLine()
+            sc.close()
+            fi.close()
+
+            // mostrar os dados
+            Snackbar.make(
+                viewBinding.root,
+                "Você chama-se ${
+                    nome.toString().uppercase()
+                } e tem $idade anos! - Internal Storage",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.internal_storage_vazia), Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++
+    // Tarefa 3: Cache
+    //++++++++++++++++++++++++++++++++++++++++
+
+    /**
+     * escreve os dados introduzidos pelo utilizador para a Cache
+     */
+    fun escreveCache() {
+        // endereço da pasta onde será gerado o ficheiro
+        // associado à área de atuação da aplicação
+        val directory: File = cacheDir
+        // nome do ficheiro na Cache
+        val file: File = File(directory, "dadosCache-SharedData.txt")
+        try {
+            val fo: FileOutputStream = FileOutputStream(file)
+            val ps: PrintStream = PrintStream(fo)
+            ps.println(viewBinding.editText3a.text)
+            ps.println(viewBinding.editText3b.text)
+            ps.close()
+            fo.close()
+
+            // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+            Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /**
+     * lê os dados guardados na Cache e mostra-os ao utilizador
+     */
+    fun lerCache() {
+        val directory: File = cacheDir // <=> getCacheDir()
+        val file = File(directory, "dadosCache-SharedData.txt")
+        try {
+            val fi = FileInputStream(file)
+            val sc = Scanner(fi)
+            val nome = sc.nextLine()
+            val idade = sc.nextLine()
+            sc.close()
+            fi.close()
+
+            // mostrar os dados
+            Snackbar.make(
+                viewBinding.root,
+                "Você chama-se ${nome.toString().uppercase()} e tem $idade anos!",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.cache_vazia), Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    //++++++++++++++++++++++++++++++++++++++++
+    // Tarefa 2: SharedPreferences com múltiplos ficheiros
+    //++++++++++++++++++++++++++++++++++++++++
+
+    /**
+     * escreve os dados na SharedPreferences, usando ficheiros diferentes para cada tipo de dado (nome e idade)
+     */
+    fun escreveSharedPreferencesMulti(it: View) {
+        val sharedPreferencesNomes = getSharedPreferences("nomes.dat", MODE_PRIVATE)
+        val sharedPreferencesIdades = getSharedPreferences("idades.dat", MODE_PRIVATE)
+
+        val editorNomes: SharedPreferences.Editor = sharedPreferencesNomes.edit()
+        val editorIdades: SharedPreferences.Editor = sharedPreferencesIdades.edit()
+
+        // colocar o conteúdo que o utilizador escreveu nas Shared Preferences
+        // Os dados são sempre escritos no formato: 'Variável'+'valor'
+        // usa-se o método putXXXXX, onde XXXXX significa String, Int, Double, etc.
+        editorNomes.putString("NOME", viewBinding.editText2a.text.toString())
+        editorIdades.putInt(
+            "IDADE",
+            viewBinding.editText2b.text.toString().toIntOrNull() ?: 0
+        ) // se a Idade=NULL, coloca 0
+        // guardar as alterações
+        editorNomes.commit()  // eventualmente, <=>   editorNomes.apply()
+        editorIdades.commit()
+
+        // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+        Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * lê os dados guardados na SharedPreferences e mostra-os ao utilizador
+     */
+    fun lerSharedPreferencesMulti(it: View) {
+        val sharedPreferencesNome = getSharedPreferences("nomes.dat", MODE_PRIVATE)
+        val sharedPreferencesIdade = getSharedPreferences("idades.dat", MODE_PRIVATE)
+        // ler o conteúdo da Shared Preferences. Se não for possível a leitura, devolve um texto alternativo
+        // estou a usar o método getString() porque guardei 'texto'. Outros tipos de dados,
+        // implicam outros métodos
+        val nome = sharedPreferencesNome.getString("NOME", getString(R.string.txt_vazio))
+        val idade = sharedPreferencesIdade.getInt("IDADE", 0)
+
+        // usar os dados lidos
+        Snackbar.make(
+            viewBinding.root,
+            "Você chama-se ${nome.toString().uppercase()} e tem $idade anos!",
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     //++++++++++++++++++++++++++++++++++++++++
